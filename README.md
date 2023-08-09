@@ -18,6 +18,3 @@ Dependencies:
 7. Spring-started-web
 
 Swagger Documentation: Swagger is added as part to easy api documentation. The same can be found at http://localhost:8080/creditofferservice/api/swagger-ui/index.html when service is up
-
-Postman collections: https://api.postman.com/collections/20123823-ef35cb80-58b0-48ca-affb-60eab16a7834?access_key=PMAT-01H7D4YDMC6DZ59MJ3CQKYXE81
-
