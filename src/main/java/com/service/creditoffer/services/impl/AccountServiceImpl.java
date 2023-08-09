@@ -2,13 +2,16 @@ package com.service.creditoffer.services.impl;
 
 import com.service.creditoffer.constants.LimitOfferType;
 import com.service.creditoffer.entities.Account;
+import com.service.creditoffer.entities.Customer;
 import com.service.creditoffer.exceptions.BadRequestException;
 import com.service.creditoffer.exceptions.NotFoundException;
 import com.service.creditoffer.models.requests.CreateAccountRequest;
 import com.service.creditoffer.repositories.AccountRepository;
 import com.service.creditoffer.services.AccountService;
+import com.service.creditoffer.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
 import java.util.Optional;
@@ -23,6 +26,9 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private CustomerService customerService;
+
     public Account getAccountById(Long accountId){
         Optional<Account> account = accountRepository.findById(accountId);
         if(account.isPresent()) return account.get();
@@ -35,6 +41,8 @@ public class AccountServiceImpl implements AccountService {
         account.setAccountLimit(createAccountRequest.getAccountLimit());
         account.setPerTransactionLimit(createAccountRequest.getPerTransactionLimit());
         try {
+            // To make sure customer is valid. If customer doesn't exist, this throws exception
+            customerService.getCustomerById(createAccountRequest.getCustomerId());
             accountRepository.save(account);
             return "Account created successfully";
         } catch (Exception e){
